@@ -1,14 +1,19 @@
-version: "3"
+version: "3.8"
 services:
   node_backend:
-    container_name: "node_backend"
-    build: ./node_backend/
+    restart: always
+    depends_on: 
+      - db
+    image: "docker.pkg.github.com/pongroyale/gameserver/node_backend"
     ports:
       - "3001:3001"
-  pg:
+    env_file: 
+      - .env
+  db:
     image: "postgres:12"
-    container_name: "postgres"
-    ports:
-      - "5432:5432"
+    restart: always
     volumes:
-      - ./pg/db_data:/var/lib/postgresql/data
+      - ./db/postgres-data:/var/lib/postgresql
+    env_file: 
+      - .env
+      

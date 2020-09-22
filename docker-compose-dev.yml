@@ -1,0 +1,27 @@
+version: "3.8"
+services:
+  node_backend:
+    image: "docker.pkg.github.com/pongroyale/gameserver/node_backend"
+    depends_on: 
+      - db
+    restart: unless-stopped
+    volumes:
+      - ./node_backend:/usr/src/app
+      - /usr/src/app/node_modules
+      
+    command: npm run dev.debug
+    ports:
+      - "3001:3001"
+      - "5858:5858"
+    env_file: 
+      - .env
+  db:
+    image: "postgres:12"
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db/postgres-data:/var/lib/postgresql
+    env_file: 
+      - .env
+      
