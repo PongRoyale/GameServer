@@ -8,7 +8,6 @@ services:
     volumes:
       - ./node_backend:/usr/src/app
       - /usr/src/app/node_modules
-      
     command: npm run dev.debug
     ports:
       - "3001:3001"
