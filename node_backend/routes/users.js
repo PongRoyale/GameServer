@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { pool } = require('../db')
   
-router.post('/register', (req, res) => {
+router.post('/', (req, res) => {
     let q = `
         INSERT INTO users(username, password, email)
         VALUES ($1, crypt($2, gen_salt('bf', 4)), $3)
@@ -16,7 +16,7 @@ router.post('/register', (req, res) => {
     });
 });
 
-router.get('/login', (req, res) => {
+router.get('/', (req, res) => {
     let q = `
         SELECT username, email
         FROM user
@@ -32,7 +32,7 @@ router.get('/login', (req, res) => {
     });
 });
 
-router.delete('/remove', (req, res) => {
+router.delete('/', (req, res) => {
     let q = `
         DELETE FROM users
         WHERE username = $1
