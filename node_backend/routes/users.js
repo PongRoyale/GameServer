@@ -2,6 +2,9 @@ const express = require('express');
 const router = express.Router();
 const { pool } = require('../db')
   
+/**
+ * Register (i.e. add) a user to the users table
+ */
 router.post('/', (req, res) => {
     let q = `
         INSERT INTO users(username, password, email)
@@ -16,6 +19,9 @@ router.post('/', (req, res) => {
     });
 });
 
+/**
+ * Check if a given users is in the database (login action)
+ */
 router.get('/', (req, res) => {
     let q = `
         SELECT username, email
@@ -32,6 +38,9 @@ router.get('/', (req, res) => {
     });
 });
 
+/**
+ * Remove a user from the users table
+ */
 router.delete('/', (req, res) => {
     let q = `
         DELETE FROM users
@@ -44,6 +53,24 @@ router.delete('/', (req, res) => {
         if (err) {throw err}
         if (res.rowCount === 0) res.sendStatus(400);
         else res.sendStatus(200);
+    });
+});
+
+/**
+ * Get relevant user data (wins, losses)
+ */
+router.get('/data', (req, res) => {
+    let q = `
+        SELECT wins, losses
+        FROM users
+        WHERE username = $1
+    `;
+
+    const body = req.body;
+    pool.query(q, [body.username], (err, res) => {
+        if (err) {throw err}
+        if (res.rowCount === 0) res.sendStatus(400);
+        else res.status(200).json(res.rows);
     });
 });
 
