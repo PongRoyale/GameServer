@@ -6,6 +6,7 @@ const port = 3001
 
 /* Route Importing */
 const usersRoute = require('./routes/users')
+const friendsRoute = require('./routes/friends')
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -18,6 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.use('/users', usersRoute);
+app.use('/friends', friendsRoute);
 
 app.listen(port, () => {
   console.log(`running on port ${port}.`)
